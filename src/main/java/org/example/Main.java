@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.lab2.*;
+import org.example.lab2.model.*;
 
 import java.util.ArrayList;
 import java.util.List;

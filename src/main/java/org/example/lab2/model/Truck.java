@@ -1,4 +1,4 @@
-package org.example.lab2;
+package org.example.lab2.model;
 
 /**
  * Truck(Вантажна машина) успадкований клас від абстрактного класу Vehicle

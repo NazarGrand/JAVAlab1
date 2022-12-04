@@ -1,4 +1,4 @@
-package org.example.lab2;
+package org.example.lab2.model;
 
 /**
  * Driver(водій) - успадкований клас від Person

@@ -1,4 +1,4 @@
-package org.example.lab2;
+package org.example.lab2.model;
 
 /**
  * Bus(автобус) успадкований клас від абстрактного класу Vehicle

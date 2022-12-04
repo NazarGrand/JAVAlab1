@@ -1,4 +1,4 @@
-package org.example.lab2;
+package org.example.lab2.model;
 
 /**
  * Person - описує людину. Поля fullName, yearOfBirth, retired - чи пенсіонер
