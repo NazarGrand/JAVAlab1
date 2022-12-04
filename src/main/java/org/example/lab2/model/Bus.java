@@ -6,7 +6,12 @@ package org.example.lab2.model;
  */
 
 public class Bus extends Vehicle{
+    private static final long serialVersionUID = 1L;
     private int seats;
+
+    public Bus(){
+
+    }
 
     public Bus(String producer, String aClass, double weight, Driver driver, double cofForFuel, int seats) {
         super(producer, aClass, weight, driver, cofForFuel);

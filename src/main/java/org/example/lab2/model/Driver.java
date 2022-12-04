@@ -7,6 +7,9 @@ package org.example.lab2.model;
 public class Driver extends Person {
     private int driverLicenseYear;
 
+    public Driver(){
+
+    }
     public Driver(String fullName, int age, boolean retired, int driverLicenseYear) {
         super(fullName, age, retired);
         this.driverLicenseYear = driverLicenseYear;

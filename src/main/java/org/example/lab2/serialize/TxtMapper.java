@@ -31,19 +31,20 @@ public class TxtMapper<T > implements IMapper<T> {
     }
 
     @Override
-    public T readObject(String fileName, Class<T> tClass) throws IOException, InstantiationException, IllegalAccessException, ValidationException {
-
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        StringBuilder sb = new StringBuilder();
-        String line = br.readLine();
-
-        while (line != null) {
-            sb.append(line);
-            sb.append(System.lineSeparator());
-            line = br.readLine();
+    public T readObject(String fileName, Class<T> tClass){
+        T result = null;
+        try(FileInputStream fileInputStream
+                    = new FileInputStream(fileName)) {
+            ObjectInputStream objectInputStream
+                    = new ObjectInputStream(fileInputStream);
+             result = (T) objectInputStream.readObject();
+            objectInputStream.close();
         }
-        String objectLine = sb.toString();
-        return  null;//(T) tClass.newInstance().toObject(objectLine);
+        catch (IOException |ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override

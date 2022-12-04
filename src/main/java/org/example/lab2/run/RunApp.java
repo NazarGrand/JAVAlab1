@@ -1,4 +1,4 @@
-package org.example;
+package org.example.lab2.run;
 
 import org.example.lab2.model.*;
 import org.example.lab2.serialize.JsonMapper;
@@ -83,5 +83,6 @@ public class RunApp {
         new JsonMapper<Bus>().writeObject("bus.json", bus);
         new XmlMapper<Bus>().writeObject("bus.xml", bus);
         new TxtMapper<Bus>().writeObject("bus.txt", bus);
+
     }
 }

@@ -10,11 +10,8 @@ import java.util.List;
 
 public class JsonMapper<T> implements IMapper<T> {
     private ObjectMapper objectMapper;
-    private Class<?> tClass;
-
 
     public JsonMapper() {
-        this.tClass = getClass();
         objectMapper = new ObjectMapper();
     }
 
