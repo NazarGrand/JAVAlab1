@@ -1,11 +1,14 @@
 package org.example;
 
 import org.example.lab2.model.*;
+import org.example.lab2.serialize.JsonMapper;
+import org.example.lab2.serialize.TxtMapper;
+import org.example.lab2.serialize.XmlMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class RunApp {
     public static void main(String[] args) {
         Driver bmwDriver = new Driver.Builder()
                 .fullName("Ткач А.В.")
@@ -76,5 +79,9 @@ public class Main {
 
         boolean hash = car.hashCode() == car2.hashCode();
         System.out.println("HashCodes are equal = " + hash);
+
+        new JsonMapper<Bus>().writeObject("bus.json", bus);
+        new XmlMapper<Bus>().writeObject("bus.xml", bus);
+        new TxtMapper<Bus>().writeObject("bus.txt", bus);
     }
 }

@@ -1,9 +1,11 @@
 package org.example.lab2.model;
 
+import java.io.Serializable;
+
 /**
  * Person - описує людину. Поля fullName, yearOfBirth, retired - чи пенсіонер
  */
-public class Person {
+public class Person implements Serializable {
     private String fullName;
     private int yearOfBirth;
     private boolean retired;

@@ -1,5 +1,6 @@
 package org.example.lab2.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Objects;
  * weight - маса автомобіля, driver - водій,
  * абстратні функції typeOfFuel - тип палива, звичайна функція fuelConsumption - розхід палива
  */
-public abstract class Vehicle {
+public abstract class Vehicle implements Serializable {
 
     private String brand;
     private String carClass;
