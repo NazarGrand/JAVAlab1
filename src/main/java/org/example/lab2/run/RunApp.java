@@ -4,12 +4,42 @@ import org.example.lab2.model.*;
 import org.example.lab2.serialize.JsonMapper;
 import org.example.lab2.serialize.TxtMapper;
 import org.example.lab2.serialize.XmlMapper;
+import service.CarService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RunApp {
+    private CarService carService;
+
+    public RunApp() {
+        carService = new CarService();
+    }
+
     public static void main(String[] args) {
+        //testRun();
+        new RunApp().demoServices();
+    }
+
+    private void demoServices() {
+        System.out.println("Demo carService.getAll() =====================");
+        List<Car> cars = carService.findAll();
+        cars.forEach(System.out::println);
+
+        System.out.println("\nDemo carService.findByBrand('BMW') =====================");
+        carService.findByBrand("BMW").forEach(System.out::println);
+
+        System.out.println("\nDemo carService.sort(all cars) sort by brand and after weight =====================");
+        carService.sort(cars).forEach(System.out::println);
+
+        System.out.println("\nDemo sort by Comparator(all cars) sort by speed and after weight =====================");
+        CarComparator carComparator = new CarComparator();
+        cars.sort(carComparator);
+        cars.forEach(System.out::println);
+    }
+
+
+    private static void testRun() {
         Driver bmwDriver = new Driver.Builder()
                 .fullName("Ткач А.В.")
                 .yearOfBirth(1985)
@@ -17,7 +47,7 @@ public class RunApp {
                 .driverLicenseYear(15)
                 .build();
 
-        SportCar car = new SportCar.Builder()
+        Car car = new Car.Builder()
                 .brand("BMW")
                 .carClass("C")
                 .weight(5000)
@@ -42,12 +72,12 @@ public class RunApp {
                 .liftingCapacity(70)
                 .build();
 
-
-        List<Vehicle> vehicles =new ArrayList() {
+        List<Vehicle> vehicles = new ArrayList() {
             {
                 add(car);
                 add(truck);
-            }};
+            }
+        };
 
         Driver BusDriver = new Driver.Builder()
                 .fullName("Шевченко В.В.")
@@ -67,14 +97,13 @@ public class RunApp {
 
         vehicles.add(bus);
 
-
-        for(Vehicle vehicle:vehicles) {
+        for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
             System.out.println(vehicle.typeOfFuel());
             System.out.println("Розхід палива: " + vehicle.fuelConsumption() + "\n");
         }
 
-        SportCar car2 = car;
+        Car car2 = car;
         System.out.println("Equals = " + car.equals(car2));
 
         boolean hash = car.hashCode() == car2.hashCode();
@@ -83,6 +112,5 @@ public class RunApp {
         new JsonMapper<Bus>().writeObject("bus.json", bus);
         new XmlMapper<Bus>().writeObject("bus.xml", bus);
         new TxtMapper<Bus>().writeObject("bus.txt", bus);
-
     }
 }

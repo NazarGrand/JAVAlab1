@@ -1,38 +1,39 @@
 package org.example.lab2.model;
 
 /**
- * SportCar успадкований клас від абстрактного класу Vehicle
+ * Car успадкований клас від абстрактного класу Vehicle
  * поле speed - швидкість
  */
-public class SportCar extends Vehicle{
+public class Car extends Vehicle implements Comparable<Car> {
     private double speed;
 
-    public SportCar(){
+    public Car() {
         super();
     }
-    public SportCar(String producer, String aClass, double weight, Driver driver, double cofForFuel, double speed) {
+
+    public Car(String producer, String aClass, double weight, Driver driver, double cofForFuel, double speed) {
         super(producer, aClass, weight, driver, cofForFuel);
         this.speed = speed;
     }
 
-
     public static class Builder extends Vehicle.Builder<Builder> {
 
         private double speed;
+
         public Builder() {
         }
 
         public Builder speed(double speed) {
             this.speed = speed;
-            return  this;
+            return this;
         }
 
-        public SportCar build() {
-            return new SportCar(this);
+        public Car build() {
+            return new Car(this);
         }
     }
 
-    protected  SportCar(Builder builder){
+    protected Car(Builder builder) {
         super(builder);
         this.speed = builder.speed;
     }
@@ -53,10 +54,10 @@ public class SportCar extends Vehicle{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SportCar sportCar)) return false;
+        if (!(o instanceof Car car)) return false;
         if (!super.equals(o)) return false;
 
-        return Double.compare(sportCar.speed, speed) == 0;
+        return Double.compare(car.speed, speed) == 0;
     }
 
     @Override
@@ -72,6 +73,15 @@ public class SportCar extends Vehicle{
     public String toString() {
         return "SportCar{" +
                 "speed=" + speed +
-                super.toString() +  "} ";
+                super.toString() + "} ";
+    }
+
+    @Override
+    public int compareTo(Car o) {
+        int result = getBrand().compareTo(o.getBrand());
+        if (result == 0) {
+            result = (int) (getWeight() - o.getWeight());
+        }
+        return result;
     }
 }

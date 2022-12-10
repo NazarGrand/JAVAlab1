@@ -35,22 +35,4 @@ public class JsonMapper<T> implements IMapper<T> {
         }
     }
 
-    @Override
-    public void writeList(String fileName, List<T> object) {
-        try {
-            objectMapper.writeValue(new File(fileName), object);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<T> readObjectsList(String fileName, Class<T> tClass) {
-        try {
-            List<T> res = objectMapper.readerForListOf(tClass).readValue(new File(fileName));
-            return res;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -10,9 +10,8 @@ import java.util.Objects;
  * абстратні функції typeOfFuel - тип палива, звичайна функція fuelConsumption - розхід палива
  */
 public abstract class Vehicle implements Serializable {
-
     private String brand;
-    private String carClass;
+    private String carClass;//TODO: ENUM
     private double weight;
     private Driver driver;
 
@@ -45,7 +44,8 @@ public abstract class Vehicle implements Serializable {
 
         private double cofForFuel;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public T brand(String brand) {
             this.brand = brand;
@@ -84,8 +84,7 @@ public abstract class Vehicle implements Serializable {
 
     public abstract String typeOfFuel();
 
-    public double fuelConsumption()
-    {
+    public double fuelConsumption() {
         return getWeight() * cofForFuel;
     }
 

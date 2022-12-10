@@ -10,9 +10,8 @@ public class DeserializationDemo {
         Bus bus1, bus2, bus3;
         bus1 = new JsonMapper<Bus>().readObject("bus.json", Bus.class);
         bus2 = new XmlMapper<Bus>().readObject("bus.xml", Bus.class);
-
-
         bus3 = new TxtMapper<Bus>().readObject("bus.txt", Bus.class);
+
         System.out.println(bus1);
         System.out.println(bus2);
         System.out.println(bus3);
