@@ -2,6 +2,15 @@ package org.example.lab2.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * абстрактний клас Vehicle(транспортний засіб)
@@ -10,11 +19,20 @@ import java.util.Objects;
  * абстратні функції typeOfFuel - тип палива, звичайна функція fuelConsumption - розхід палива
  */
 public abstract class Vehicle implements Serializable {
+    @Size(min=1, max = 15, message = "{Size.brand}")
     private String brand;
-    private String carClass;//TODO: ENUM
+
+    @NotNull
+    private String carClass;
+
+    @Min(value = 1000, message = "{Min.weight}")
+    @Max(value = 10000, message = "{Max.weight}")
     private double weight;
+
+    @NotNull
     private Driver driver;
 
+    @Max(value = 1, message = "{Max.cofForFuel}")
     private double cofForFuel;
 
     public Vehicle() {
@@ -70,6 +88,22 @@ public abstract class Vehicle implements Serializable {
         public T cofForFuel(double cofForFuel) {
             this.cofForFuel = cofForFuel;
             return (T) this;
+        }
+
+
+        public Vehicle validate(Vehicle obj) {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Vehicle>> violations = validator.validate(obj);
+            if (violations.isEmpty()) {
+                return obj;
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (var violation : violations) {
+                    sb.append(violation.getInvalidValue()).append(" : ").append(violation.getMessage());
+                }
+                return null;
+            }
         }
 
     }

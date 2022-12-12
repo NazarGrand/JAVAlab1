@@ -1,10 +1,20 @@
 package org.example.lab2.model;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.Set;
+
 /**
  * Truck(Вантажна машина) успадкований клас від абстрактного класу Vehicle
  * поле liftingCapacity - вантажопідйомність
  */
 public class Truck extends Vehicle {
+
+    @Max(value = 24000, message = "{Max.weight}")
     private double liftingCapacity;
 
     public Truck(String producer, String aClass, double weight, Driver driver, double cofForFuel, double liftingCapacity) {
@@ -25,7 +35,28 @@ public class Truck extends Vehicle {
         }
 
         public Truck build() {
+            validate();
             return new Truck(this);
+        }
+
+        private void validate() throws IllegalArgumentException {
+
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+
+            Truck truck = new Truck(this);
+
+            Set<ConstraintViolation<Truck>> violations = validator.validate(truck);
+
+            StringBuilder mb = new StringBuilder();
+
+            for (ConstraintViolation<Truck> violation : violations) {
+                mb.append("Error for field " + violation.getPropertyPath() + ": '"+ violation.getInvalidValue() + " " + violation.getMessage()).append("\n");
+            }
+
+            if (mb.length() > 0) {
+                throw new IllegalArgumentException(mb.toString());
+            }
         }
     }
 

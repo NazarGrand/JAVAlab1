@@ -6,8 +6,12 @@ import org.example.lab2.serialize.TxtMapper;
 import org.example.lab2.serialize.XmlMapper;
 import service.CarService;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class RunApp {
     private CarService carService;
@@ -17,8 +21,34 @@ public class RunApp {
     }
 
     public static void main(String[] args) {
-        //testRun();
-        new RunApp().demoServices();
+       // testRun();
+        //new RunApp().demoServices();
+        new RunApp().demoValidation();
+    }
+
+    private void demoValidation() {
+        try{
+            Driver bmwDriver = new Driver.Builder()
+                    .fullName("Ткач А.В.")
+                    .yearOfBirth(1985)
+                    .retired(false)
+                    .driverLicenseYear(15)
+                    .build();
+
+            Car car = new Car.Builder()
+                    .brand("BMW")
+                    .carClass("C")
+                    .weight(500)
+                    .driver(bmwDriver)
+                    .cofForFuel(0.005)
+                    .speed(220)
+                    .build();
+
+            System.out.println(car);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void demoServices() {
@@ -50,7 +80,7 @@ public class RunApp {
         Car car = new Car.Builder()
                 .brand("BMW")
                 .carClass("C")
-                .weight(5000)
+                .weight(500)
                 .driver(bmwDriver)
                 .cofForFuel(0.005)
                 .speed(120)

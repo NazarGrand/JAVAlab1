@@ -1,10 +1,18 @@
 package org.example.lab2.model;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Max;
+import java.util.Set;
+
 /**
  * Car успадкований клас від абстрактного класу Vehicle
  * поле speed - швидкість
  */
 public class Car extends Vehicle implements Comparable<Car> {
+    @Max(value = 200, message = "{Max.speed}")
     private double speed;
 
     public Car() {
@@ -29,7 +37,28 @@ public class Car extends Vehicle implements Comparable<Car> {
         }
 
         public Car build() {
+             validate();
             return new Car(this);
+        }
+
+        private void validate() throws IllegalArgumentException {
+
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+
+            Car car = new Car(this);
+
+            Set<ConstraintViolation<Car>> violations = validator.validate(car);
+
+            StringBuilder mb = new StringBuilder();
+
+            for (ConstraintViolation<Car> violation : violations) {
+                mb.append("Error for field " + violation.getPropertyPath() + ": '"+ violation.getInvalidValue() + " " + violation.getMessage()).append("\n");
+            }
+
+            if (mb.length() > 0) {
+                throw new IllegalArgumentException(mb.toString());
+            }
         }
     }
 
