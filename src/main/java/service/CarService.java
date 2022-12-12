@@ -23,8 +23,8 @@ public class CarService {
         return carRepository.findByBrand(brand);
     }
 
-    public Set<Car> sort(List<Car> cars) {
-        return new TreeSet<>(cars);
+    public Set<Car> sort() {
+        return new TreeSet<>(carRepository.findAll());
     }
 
 }

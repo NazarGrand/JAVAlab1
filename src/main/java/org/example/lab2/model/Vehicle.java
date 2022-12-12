@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
  */
 public abstract class Vehicle implements Serializable {
     @Size(min=1, max = 15, message = "{Size.brand}")
-    private String brand;
+    private String brand; //TODO: protected
 
     @NotNull
     private String carClass;
@@ -29,7 +29,6 @@ public abstract class Vehicle implements Serializable {
     @Max(value = 10000, message = "{Max.weight}")
     private double weight;
 
-    @NotNull
     private Driver driver;
 
     @Max(value = 1, message = "{Max.cofForFuel}")

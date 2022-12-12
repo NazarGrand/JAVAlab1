@@ -37,16 +37,17 @@ public class Car extends Vehicle implements Comparable<Car> {
         }
 
         public Car build() {
-             validate();
-            return new Car(this);
+            return validate();
         }
 
-        private void validate() throws IllegalArgumentException {
+        private Car validate() throws IllegalArgumentException {
 
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
 
-            Car car = new Car(this);
+           Car car = new Car(this);
+//            Car car = new Car();
+//            car.brand = this.brand;
 
             Set<ConstraintViolation<Car>> violations = validator.validate(car);
 
@@ -59,6 +60,7 @@ public class Car extends Vehicle implements Comparable<Car> {
             if (mb.length() > 0) {
                 throw new IllegalArgumentException(mb.toString());
             }
+            return car;
         }
     }
 
@@ -109,7 +111,7 @@ public class Car extends Vehicle implements Comparable<Car> {
     public int compareTo(Car o) {
         int result = getBrand().compareTo(o.getBrand());
         if (result == 0) {
-            result = (int) (getWeight() - o.getWeight());
+            result = Double.compare(getWeight(), o.getWeight());
         }
         return result;
     }

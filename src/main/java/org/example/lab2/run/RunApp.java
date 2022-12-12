@@ -22,8 +22,8 @@ public class RunApp {
 
     public static void main(String[] args) {
        // testRun();
-        //new RunApp().demoServices();
-        new RunApp().demoValidation();
+        new RunApp().demoServices();
+       // new RunApp().demoValidation();
     }
 
     private void demoValidation() {
@@ -78,7 +78,7 @@ public class RunApp {
         carService.findByBrand("BMW").forEach(System.out::println);
 
         System.out.println("\nDemo carService.sort(all cars) sort by brand and after weight =====================");
-        carService.sort(cars).forEach(System.out::println);
+        carService.sort().forEach(System.out::println);
 
         System.out.println("\nDemo sort by Comparator(all cars) sort by speed and after weight =====================");
         CarComparator carComparator = new CarComparator();
