@@ -1,10 +1,18 @@
 package org.example.lab2.model;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Max;
+import java.util.Set;
+
 /**
  * Driver(водій) - успадкований клас від Person
  * driverLicenseYear - рік отримання прав
  */
 public class Driver extends Person {
+    @Max(value = 2022, message = "{Max.driverLicenseYear}")
     private int driverLicenseYear;
 
     public Driver(){
@@ -29,6 +37,26 @@ public class Driver extends Person {
 
         public Driver build() {
             return new Driver(this);
+        }
+
+        private void validate() throws IllegalArgumentException {
+
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+
+            Driver driver = new Driver(this);
+
+            Set<ConstraintViolation<Driver>> violations = validator.validate(driver);
+
+            StringBuilder mb = new StringBuilder();
+
+            for (ConstraintViolation<Driver> violation : violations) {
+                mb.append("Error for field " + violation.getPropertyPath() + ": '"+ violation.getInvalidValue() + " " + violation.getMessage()).append("\n");
+            }
+
+            if (mb.length() > 0) {
+                throw new IllegalArgumentException(mb.toString());
+            }
         }
     }
 

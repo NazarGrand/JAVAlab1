@@ -45,6 +45,24 @@ public class RunApp {
                     .build();
 
             System.out.println(car);
+
+            Driver TruckDriver = new Driver.Builder()
+                    .fullName("Кравченко І.В.")
+                    .yearOfBirth(1966)
+                    .retired(false)
+                    .driverLicenseYear(30)
+                    .build();
+
+            Truck truck = new Truck.Builder()
+                    .brand("Грузовик")
+                    .carClass("D")
+                    .weight(8000)
+                    .driver(TruckDriver)
+                    .cofForFuel(0.002)
+                    .liftingCapacity(70)
+                    .build();
+
+            System.out.println(truck);
         }
         catch (IllegalArgumentException e){
             System.out.println(e.getMessage());

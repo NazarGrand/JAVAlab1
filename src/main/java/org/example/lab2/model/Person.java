@@ -1,13 +1,25 @@
 package org.example.lab2.model;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.AssertTrue;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Person - описує людину. Поля fullName, yearOfBirth, retired - чи пенсіонер
  */
 public class Person implements Serializable {
+    @Size(min=1, max = 15, message = "{Size.fullName}")
     private String fullName;
+
+    @Max(value = 2022, message = "{Max.yearOfBirth}")
     private int yearOfBirth;
+    @AssertTrue
     private boolean retired;
 
     public Person() {
@@ -39,6 +51,21 @@ public class Person implements Serializable {
         public T retired(boolean retired) {
             this.retired = retired;
             return (T) this;
+        }
+
+        public Person validate(Person obj) {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Person>> violations = validator.validate(obj);
+            if (violations.isEmpty()) {
+                return obj;
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (var violation : violations) {
+                    sb.append(violation.getInvalidValue()).append(" : ").append(violation.getMessage());
+                }
+                return null;
+            }
         }
     }
 
