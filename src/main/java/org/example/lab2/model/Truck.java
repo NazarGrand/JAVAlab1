@@ -35,11 +35,10 @@ public class Truck extends Vehicle {
         }
 
         public Truck build() {
-            validate();
-            return new Truck(this);
+            return validate();
         }
 
-        private void validate() throws IllegalArgumentException {
+        private Truck validate() throws IllegalArgumentException {
 
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
@@ -57,6 +56,7 @@ public class Truck extends Vehicle {
             if (mb.length() > 0) {
                 throw new IllegalArgumentException(mb.toString());
             }
+            return truck;
         }
     }
 

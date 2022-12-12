@@ -21,9 +21,9 @@ public class RunApp {
     }
 
     public static void main(String[] args) {
-       // testRun();
-        new RunApp().demoServices();
-       // new RunApp().demoValidation();
+        //testRun();
+        //new RunApp().demoServices();
+       new RunApp().demoValidation();
     }
 
     private void demoValidation() {
@@ -98,7 +98,7 @@ public class RunApp {
         Car car = new Car.Builder()
                 .brand("BMW")
                 .carClass("C")
-                .weight(500)
+                .weight(2000)
                 .driver(bmwDriver)
                 .cofForFuel(0.005)
                 .speed(120)

@@ -42,11 +42,10 @@ public class Bus extends Vehicle{
         }
 
         public Bus build() {
-            validate();
-            return new Bus(this);
+            return validate();
         }
 
-        private void validate() throws IllegalArgumentException {
+        private Bus validate() throws IllegalArgumentException {
 
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
@@ -64,6 +63,7 @@ public class Bus extends Vehicle{
             if (mb.length() > 0) {
                 throw new IllegalArgumentException(mb.toString());
             }
+            return bus;
         }
     }
 
