@@ -111,12 +111,14 @@ public class Bus extends Vehicle implements TxtFormat<Bus>, Serializable {
 
     @Override
     public String toStringSerialize() {
-        return "brand = " + this.getBrand() +
-                ",carClass = " + this.getCarClass() +
+        return "brand=" + this.getBrand() +
+                ",carClass=" + this.getCarClass() +
                 ",weight=" + this.getWeight() +
-                ",driver=" + this.getDriver().toStringSerialize() + //toStringSerialize
+                ",driverFullName=" + this.getDriver().getFullName() +
+                ",driverYearOfBirth=" + this.getDriver().getYearOfBirth() +
+                ",driverLicenseYear=" + this.getDriver().getDriverLicenseYear() +
                 ",cofForFuel=" + this.getCofForFuel() +
-                ",seats=" + this.getSeats();
+                ",seats=" + this.getSeats() + ",";
     }
 
     @Override
@@ -124,8 +126,10 @@ public class Bus extends Vehicle implements TxtFormat<Bus>, Serializable {
         String[] str = string.split(",");
         var values = new ArrayList<String>();
         for (String item : str) {
-            String[] innerItem=item.split("=");
-            values.add(innerItem[1]);
+            String[] innerItem = item.split("=");
+            if (innerItem.length == 2) {
+                values.add(innerItem[1]);
+            }
         }
         for (var i :
                 values) {
@@ -136,9 +140,13 @@ public class Bus extends Vehicle implements TxtFormat<Bus>, Serializable {
                 .brand(values.get(0))
                 .carClass(values.get(1))
                 .weight(Double.parseDouble(values.get(2)))
-                .driver(toObject(values.get(3)).getDriver())
-                .cofForFuel(Double.parseDouble(values.get(4)))
-                .seats(Integer.parseInt(values.get(5)))
+                .driver(new Driver.Builder()
+                        .fullName(values.get(3))
+                        .yearOfBirth(Integer.parseInt(values.get(4)))
+                        .driverLicenseYear(5)
+                        .build())
+                .cofForFuel(Double.parseDouble(values.get(6)))
+                .seats(Integer.parseInt(values.get(7)))
                 .build();
 
         return bus;

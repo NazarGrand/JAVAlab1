@@ -1,1 +1,1 @@
-brand = Mercedes,carClass = C,weight=7000.0,driver={fullName = Шевченко В.В., yearOfBirth = 1977, retired = false, driverLicenseYear25},cofForFuel=0.002,seats=30
+brand=Mercedes,carClass=C,weight=7000.0,driverFullName=Шевченко В.В.,driverYearOfBirth=1977,driverLicenseYear=25,cofForFuel=0.002,seats=30,
