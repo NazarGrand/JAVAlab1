@@ -1,17 +1,22 @@
 package org.example.lab2.model;
 
+import org.example.lab2.exception.ValidationException;
+import org.example.lab2.serialize.TxtFormat;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Max;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
  * Driver(водій) - успадкований клас від Person
  * driverLicenseYear - рік отримання прав
  */
-public class Driver extends Person {
+public class Driver extends Person implements TxtFormat<Driver>, Serializable {
     @Max(value = 2022, message = "{Max.driverLicenseYear}")
     private int driverLicenseYear;
 
@@ -21,6 +26,37 @@ public class Driver extends Person {
     public Driver(String fullName, int age, boolean retired, int driverLicenseYear) {
         super(fullName, age, retired);
         this.driverLicenseYear = driverLicenseYear;
+    }
+
+    @Override
+    public String toStringSerialize() {
+        return "{fullName = " + this.getFullName() +
+                ", yearOfBirth = " + this.getYearOfBirth() +
+                ", retired = " + this.isRetired() +
+                ", driverLicenseYear" + this.getDriverLicenseYear() + "}";
+    }
+
+    @Override
+    public Driver toObject(String string) throws ValidationException {
+        String[] str = string.split(",");
+        var values = new ArrayList<String>();
+        for (String item : str) {
+            String[] innerItem=item.split("=");
+            values.add(innerItem[1]);
+        }
+        for (var i :
+                values) {
+            i.trim();
+        }
+
+        Driver driver = new Driver.Builder()
+                .fullName(values.get(3))
+                .yearOfBirth(Integer.parseInt(values.get(4)))
+                .retired(Boolean.parseBoolean(values.get(5)))
+                .driverLicenseYear(Integer.parseInt(values.get(6)))
+                .build();
+
+        return driver;
     }
 
     public static class Builder extends Person.Builder<Builder> {

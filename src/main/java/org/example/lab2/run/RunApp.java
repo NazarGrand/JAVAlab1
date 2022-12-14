@@ -21,9 +21,9 @@ public class RunApp {
     }
 
     public static void main(String[] args) {
-        //testRun();
+        testRun();
         //new RunApp().demoServices();
-       new RunApp().demoValidation();
+       //new RunApp().demoValidation();
     }
 
     private void demoValidation() {

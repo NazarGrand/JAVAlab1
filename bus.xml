@@ -1,1 +1,1 @@
-<Bus><brand>Mercedes</brand><carClass>C</carClass><weight>7000.0</weight><driver><fullName>Шевченко В.В.</fullName><yearOfBirth>1977</yearOfBirth><retired>false</retired><driverLicenseYear>25</driverLicenseYear></driver></Bus>
+<Bus><weight>7000.0</weight><driver><fullName>Шевченко В.В.</fullName><yearOfBirth>1977</yearOfBirth><retired>false</retired><driverLicenseYear>25</driverLicenseYear></driver><cofForFuel>0.002</cofForFuel><seats>30</seats><brand>Mercedes</brand><carClass>C</carClass></Bus>

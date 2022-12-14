@@ -153,6 +153,14 @@ public abstract class Vehicle implements Serializable {
         this.driver = driver;
     }
 
+    public double getCofForFuel() {
+        return cofForFuel;
+    }
+
+    public void setCofForFuel(double cofForFuel) {
+        this.cofForFuel = cofForFuel;
+    }
+
     @Override
     public String toString() {
         return " VehicleData{" +

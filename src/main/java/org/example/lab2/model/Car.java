@@ -46,8 +46,6 @@ public class Car extends Vehicle implements Comparable<Car> {
             Validator validator = factory.getValidator();
 
            Car car = new Car(this);
-//            Car car = new Car();
-//            car.brand = this.brand;
 
             Set<ConstraintViolation<Car>> violations = validator.validate(car);
 

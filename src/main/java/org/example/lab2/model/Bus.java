@@ -1,11 +1,19 @@
 package org.example.lab2.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.example.lab2.exception.ValidationException;
+import org.example.lab2.serialize.TxtFormat;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -13,7 +21,7 @@ import java.util.Set;
  * поле seats - кількість місць в автобусі
  */
 
-public class Bus extends Vehicle{
+public class Bus extends Vehicle implements TxtFormat<Bus>, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Min(value = 10, message = "{Min.seats}")
@@ -24,10 +32,17 @@ public class Bus extends Vehicle{
 
     }
 
-    public Bus(String producer, String aClass, double weight, Driver driver, double cofForFuel, int seats) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public Bus(@JsonProperty("producer") String producer,
+               @JsonProperty("aClass") String aClass,
+               @JsonProperty("weight") double weight,
+               @JsonProperty("driver") Driver driver,
+               @JsonProperty("cofForFuel") double cofForFuel,
+               @JsonProperty("seats") int seats) {
         super(producer, aClass, weight, driver, cofForFuel);
         this.seats = seats;
     }
+
 
     public static class Builder extends Vehicle.Builder<Builder> {
 
@@ -72,16 +87,61 @@ public class Bus extends Vehicle{
         this.seats = builder.seats;
     }
 
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
+
     @Override
     public String typeOfFuel() {
         return "Газ";
     }
+
 
     @Override
     public String toString() {
         return "Bus{" +
                 "seats=" + seats +
                 super.toString() + "} ";
+    }
+
+
+    @Override
+    public String toStringSerialize() {
+        return "brand = " + this.getBrand() +
+                ",carClass = " + this.getCarClass() +
+                ",weight=" + this.getWeight() +
+                ",driver=" + this.getDriver().toStringSerialize() + //toStringSerialize
+                ",cofForFuel=" + this.getCofForFuel() +
+                ",seats=" + this.getSeats();
+    }
+
+    @Override
+    public Bus toObject(String string) throws ValidationException {
+        String[] str = string.split(",");
+        var values = new ArrayList<String>();
+        for (String item : str) {
+            String[] innerItem=item.split("=");
+            values.add(innerItem[1]);
+        }
+        for (var i :
+                values) {
+            i.trim();
+        }
+
+        Bus bus = new Builder()
+                .brand(values.get(0))
+                .carClass(values.get(1))
+                .weight(Double.parseDouble(values.get(2)))
+                .driver(toObject(values.get(3)).getDriver())
+                .cofForFuel(Double.parseDouble(values.get(4)))
+                .seats(Integer.parseInt(values.get(5)))
+                .build();
+
+        return bus;
     }
 
     @Override
