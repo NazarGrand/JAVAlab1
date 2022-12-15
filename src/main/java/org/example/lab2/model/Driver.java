@@ -17,7 +17,7 @@ import java.util.Set;
  * driverLicenseYear - рік отримання прав
  */
 public class Driver extends Person implements TxtFormat<Driver>, Serializable {
-    @Max(value = 2022, message = "{Max.driverLicenseYear}")
+    @Max(value = 100, message = "{Max.driverLicenseYear}")
     private int driverLicenseYear;
 
     public Driver(){
@@ -113,7 +113,7 @@ public class Driver extends Person implements TxtFormat<Driver>, Serializable {
     @Override
     public String toString() {
         return "Driver{" +
-                "Date of issue driving license = " + driverLicenseYear +
+                "driverLicenseYear = " + driverLicenseYear +
                 super.toString() + "} ";
     }
 

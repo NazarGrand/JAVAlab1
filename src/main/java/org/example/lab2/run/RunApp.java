@@ -9,6 +9,7 @@ import service.DriverService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class RunApp {
     private CarService carService;
@@ -34,9 +35,19 @@ public class RunApp {
                 .driverLicenseYear(15)
                 .build();
         //driverService.create(bmwDriver);
-        driverService.findAll().forEach(System.out::println); //TODO: CLASS PERSON ADD ID
-        //TODO: UPDATE AND DELETE: 2 METHOD(ADD IN SERVICE AND REPOSITORY)
+
+        System.out.println("Demo driverService.getAll() ===========================");
+        driverService.findAll().forEach(System.out::println);
+
+        System.out.println("\nDemo driverService.findByBirthday(1985) =====================");
         driverService.findByBirthday(1985).forEach(System.out::println);
+
+        System.out.println("\nDemo driverService.findSortByDriverLicenseYear() =====================");
+        driverService.findSortByDriverLicenseYear().forEach(System.out::println);
+
+        //Driver driver = driverService.update(bmwDriver);
+       // System.out.println(driver);
+        //driverService.deleteDriver(UUID.fromString("29e3de5a-4538-4df1-97dc-3e11daf1970e"));
     }
 
 

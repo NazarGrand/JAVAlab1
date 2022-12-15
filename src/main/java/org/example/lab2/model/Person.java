@@ -5,15 +5,20 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.AssertTrue;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Person - описує людину. Поля fullName, yearOfBirth, retired - чи пенсіонер
  */
 public class Person implements Serializable {
+    @NotNull
+    private UUID id;
+
     @Size(min=1, max = 15, message = "{Size.fullName}")
     private String fullName;
 
@@ -32,12 +37,17 @@ public class Person implements Serializable {
     }
 
     public static class Builder<T extends Person.Builder<T>> {
+        private UUID id;
         private String fullName;
         private int yearOfBirth;
         private boolean retired;
 
         public Builder() {}
 
+        public T id(UUID id) {
+            this.id = id;
+            return (T) this;
+        }
         public T fullName(String fullName) {
             this.fullName = fullName;
             return (T) this;
@@ -70,12 +80,19 @@ public class Person implements Serializable {
     }
 
     protected Person(Builder<?> builder) {
+        this.id = builder.id;
         this.fullName = builder.fullName;
         this.yearOfBirth = builder.yearOfBirth;
         this.retired = builder.retired;
     }
 
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
     public String getFullName() {
         return fullName;
     }
@@ -103,6 +120,7 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return " Person{"
+                + "id=" + id + '\n'
                 + "fullName='" + fullName + '\''
                 + ", yearOfBirth=" + yearOfBirth
                 + ", retired=" + retired

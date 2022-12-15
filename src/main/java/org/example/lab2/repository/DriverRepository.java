@@ -23,7 +23,11 @@ public class DriverRepository {
         final String getByYearOfBirth = "SELECT * FROM driver WHERE yearOfBirth = " + yearOfBirth;
         return findDrivers(getByYearOfBirth);
     }
-    //TODO: ДЕКІЛЬКА ПАРАМЕТРІВ FINDBYPARAMS
+
+    public List<Driver> findSortByDriverLicenseYear() {
+        final String getSortDrivers = "SELECT * FROM driver ORDER BY driverLicenseYear";
+        return findDrivers(getSortDrivers);
+    }
 
     private static ArrayList<Driver> findDrivers(String GET_ALL) {
         var drivers = new ArrayList<Driver>();
@@ -32,7 +36,7 @@ public class DriverRepository {
             ResultSet rs = statement.executeQuery(GET_ALL);
             while (rs.next()) {
                 var driver = new Driver.Builder()
-//                        .withId(UUID.fromString(rs.getString("id")))
+                        .id(UUID.fromString(rs.getString("id")))
                         .fullName(rs.getString("fullName"))
                         .yearOfBirth(rs.getInt("yearOfBirth"))
                         .retired(rs.getBoolean("retired"))
@@ -67,5 +71,36 @@ public class DriverRepository {
         }
 
         return driver;
+    }
+
+    public Driver update(Driver driver) {
+        var id = UUID.randomUUID();
+        String UPDATE_DRIVER = "UPDATE driver SET driverLicenseYear=? WHERE id=?";
+
+        try (Connection connection = MySqlConnection.getConnection();
+             var statementDriver = connection.prepareStatement(UPDATE_DRIVER);
+        ) {
+            statementDriver.setString(1, id.toString());
+            statementDriver.setString(2, driver.getFullName());
+            statementDriver.setInt(3, driver.getYearOfBirth());
+            statementDriver.setBoolean(4, driver.isRetired());
+            statementDriver.setInt(5, driver.getDriverLicenseYear());
+
+            statementDriver.executeUpdate();
+
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+
+        return driver;
+    }
+
+    public void deleteDriver(UUID id) {
+        try (Connection connection = MySqlConnection.getConnection();
+        ) {
+
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
     }
 }
