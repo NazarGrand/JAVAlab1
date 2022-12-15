@@ -5,29 +5,43 @@ import org.example.lab2.serialize.JsonMapper;
 import org.example.lab2.serialize.TxtMapper;
 import org.example.lab2.serialize.XmlMapper;
 import service.CarService;
+import service.DriverService;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class RunApp {
     private CarService carService;
+    private DriverService driverService;
 
     public RunApp() {
         carService = new CarService();
+        driverService = new DriverService();
     }
 
     public static void main(String[] args) {
-        testRun();
+        //testRun();
         //new RunApp().demoServices();
-       //new RunApp().demoValidation();
+        // new RunApp().demoValidation();
+        new RunApp().demoMySql();
     }
 
+    private void demoMySql() {
+        Driver bmwDriver = new Driver.Builder()
+                .fullName("Ткач А.В.")
+                .yearOfBirth(1985)
+                .retired(false)
+                .driverLicenseYear(15)
+                .build();
+        //driverService.create(bmwDriver);
+        driverService.findAll().forEach(System.out::println); //TODO: CLASS PERSON ADD ID
+        //TODO: UPDATE AND DELETE: 2 METHOD(ADD IN SERVICE AND REPOSITORY)
+        driverService.findByBirthday(1985).forEach(System.out::println);
+    }
+
+
     private void demoValidation() {
-        try{
+        try {
             Driver bmwDriver = new Driver.Builder()
                     .fullName("Ткач А.В.")
                     .yearOfBirth(1985)
@@ -63,8 +77,7 @@ public class RunApp {
                     .build();
 
             System.out.println(truck);
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
