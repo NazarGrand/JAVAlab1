@@ -21,8 +21,8 @@ public class DriverService {
         return driverRepository.findAll();
     }
 
-    public List<Driver> findByBirthday(int birthday) {
-        return driverRepository.findByBirthday(birthday);
+    public List<Driver> findByBirthday(int birthdayYear) {
+        return driverRepository.findByBirthday(birthdayYear);
     }
 
     public List<Driver> findSortByDriverLicenseYear() {

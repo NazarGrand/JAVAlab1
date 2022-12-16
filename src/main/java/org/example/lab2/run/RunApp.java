@@ -29,12 +29,12 @@ public class RunApp {
 
     private void demoMySql() {
         Driver bmwDriver = new Driver.Builder()
-                .fullName("Ткач А.В.")
+                .fullName("Ткач А.C.")
                 .yearOfBirth(1985)
                 .retired(false)
                 .driverLicenseYear(15)
                 .build();
-        //driverService.create(bmwDriver);
+       // driverService.create(bmwDriver);
 
         System.out.println("Demo driverService.getAll() ===========================");
         driverService.findAll().forEach(System.out::println);
@@ -45,8 +45,13 @@ public class RunApp {
         System.out.println("\nDemo driverService.findSortByDriverLicenseYear() =====================");
         driverService.findSortByDriverLicenseYear().forEach(System.out::println);
 
-        //Driver driver = driverService.update(bmwDriver);
-       // System.out.println(driver);
+
+        List<Driver> drivers = driverService.findByBirthday(1985);
+        Driver driver = drivers.get(0);
+        driver.setFullName("Шевченко А.К");
+
+       driverService.update(driver);
+        System.out.println(driver);
         //driverService.deleteDriver(UUID.fromString("29e3de5a-4538-4df1-97dc-3e11daf1970e"));
     }
 

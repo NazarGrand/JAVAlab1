@@ -13,27 +13,28 @@ import java.util.List;
 import java.util.UUID;
 
 public class DriverRepository {
+    private static final String GET_ALL = "SELECT * FROM driver";
+    private static final String GET_BY_YEAR_OF_BIRTH = "SELECT * FROM driver WHERE yearOfBirth = " ;
+
+    private static final String GET_SORT_DRIVERS = "SELECT * FROM driver ORDER BY driverLicenseYear";
 
     public List<Driver> findAll() {
-        final String getAll = "SELECT * FROM driver";
-        return findDrivers(getAll);
+        return findDrivers(GET_ALL);
     }
 
     public List<Driver> findByBirthday(int yearOfBirth) {
-        final String getByYearOfBirth = "SELECT * FROM driver WHERE yearOfBirth = " + yearOfBirth;
-        return findDrivers(getByYearOfBirth);
+        return findDrivers(GET_BY_YEAR_OF_BIRTH+" "+yearOfBirth);
     }
 
     public List<Driver> findSortByDriverLicenseYear() {
-        final String getSortDrivers = "SELECT * FROM driver ORDER BY driverLicenseYear";
-        return findDrivers(getSortDrivers);
+        return findDrivers(GET_SORT_DRIVERS);
     }
 
-    private static ArrayList<Driver> findDrivers(String GET_ALL) {
+    private static ArrayList<Driver> findDrivers(String query) {
         var drivers = new ArrayList<Driver>();
         try (Connection conn = MySqlConnection.getConnection()) {
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(GET_ALL);
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 var driver = new Driver.Builder()
                         .id(UUID.fromString(rs.getString("id")))
@@ -74,17 +75,15 @@ public class DriverRepository {
     }
 
     public Driver update(Driver driver) {
-        var id = UUID.randomUUID();
-        String UPDATE_DRIVER = "UPDATE driver SET driverLicenseYear=? WHERE id=?";
-
+        String UPDATE_DRIVER = "UPDATE driver SET fullName = ? , yearOfBirth = ?, retired = ?, driverLicenseYear=? WHERE id=?";
         try (Connection connection = MySqlConnection.getConnection();
              var statementDriver = connection.prepareStatement(UPDATE_DRIVER);
         ) {
-            statementDriver.setString(1, id.toString());
-            statementDriver.setString(2, driver.getFullName());
-            statementDriver.setInt(3, driver.getYearOfBirth());
-            statementDriver.setBoolean(4, driver.isRetired());
-            statementDriver.setInt(5, driver.getDriverLicenseYear());
+            statementDriver.setString(1, driver.getFullName());
+            statementDriver.setInt(2, driver.getYearOfBirth());
+            statementDriver.setBoolean(3, driver.isRetired());
+            statementDriver.setInt(4, driver.getDriverLicenseYear());
+            statementDriver.setString(5, driver.getId().toString());
 
             statementDriver.executeUpdate();
 
